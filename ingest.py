@@ -215,4 +215,3 @@ qdrant.upsert(
     points=[models.PointStruct(id=i, vector={"bm25":models.SparseVector(indices=sparse_vec[i].indices.tolist(), values=sparse_vec[i].values.tolist())}, payload=chunks[i]['payload']) for i, _ in enumerate(sparse_vec)]
 )
 
-print(qdrant.get_collection("BM25_search"))

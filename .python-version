@@ -1,17 +1,1 @@
-3.14
-
-Ran command: `source .venv/bin/activate`
-
-**No, it's not strictly required** — but it's useful to keep.
-
-Here's what it does:
-
-| Scenario | Without `.python-version` | With `.python-version` |
-|---|---|---|
-| `uv venv` | You must specify `--python 3.14` every time | UV auto-picks Python 3.14 automatically |
-| `uv run` | Uses system default Python | Uses 3.14 as defined |
-| Other devs cloning your repo | No Python version hint | Instantly know which version to use |
-
-It's a **UV convention** (borrowed from `pyenv`) — a simple one-line file that pins the Python version for the project so you never have to remember to pass `--python 3.14` manually.
-
-**Recommendation: keep it.** It costs nothing (1 file, 4 bytes) and saves you from accidentally creating a venv with the wrong Python version in the future.
+3.12
