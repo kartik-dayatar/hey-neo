@@ -1,23 +1,51 @@
-from langchain_protocol.protocol import UsageInfo
+import ollama
 from qdrant_client import QdrantClient, models
 from fastembed import SparseTextEmbedding
 
 qdrant = QdrantClient(url="http://localhost:6333")
 
-query = input("enter your query: ")
+def bm25_search(query):
+    embed_query = SparseTextEmbedding(model_name="Qdrant/bm25")
 
-embed_query = SparseTextEmbedding(model_name="Qdrant/bm25")
+    query_token = list(embed_query.embed([query]))
 
-query_token = list(embed_query.embed([query]))
+    result= qdrant.query_points(
+        collection_name="BM25_search",
+        query=models.SparseVector(indices=query_token[0].indices.tolist(), values=query_token[0].values.tolist()),
+        using="bm25",
+        with_payload=True,
+        limit=10,)
 
-result= qdrant.query_points(
-    collection_name="BM25_search",
-    query=models.SparseVector(indices=query_token[0].indices.tolist(), values=query_token[0].values.tolist()),
-    using="bm25",
-    limit=5,
-    
-)
+    payload = [p.payload for p in result.points]
+    return payload
 
-for i in result.points:
-    print(i.payload)
-    print("\n")
+
+def similarity_search(query):
+    query_vector = ollama.embeddings(model="mxbai-embed-large:latest",prompt=query)
+
+    result= qdrant.query_points(
+        collection_name="Similarity_search",
+        query=query_vector['embedding'],
+        limit=5,
+        with_payload=True,
+        with_vectors=False
+    )
+
+    payload = [p.payload for p in result.points]
+
+    return payload
+
+def package_search(query):
+    query_vector = ollama.embeddings(model="mxbai-embed-large:latest",prompt=query)
+
+    result= qdrant.query_points(
+        collection_name="packages",
+        query=query_vector['embedding'],
+        limit=5,
+        with_payload=True,
+        with_vectors=False
+    )
+
+    payload = [p.payload for p in result.points]
+
+    return payload
