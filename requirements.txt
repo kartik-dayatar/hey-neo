@@ -1,0 +1,23 @@
+# Core LLM & agent framework
+langchain
+langchain-core
+langchain-ollama
+langchain-community
+
+# Qdrant vector database client
+qdrant-client
+
+# Sparse embeddings (BM25 via fastembed)
+fastembed
+
+# Ollama Python SDK (for embeddings)
+ollama
+
+# Web search fallback
+tavily-python
+
+# BM25 ranking (used during ingestion)
+rank-bm25
+
+# Environment variable management
+python-dotenv
