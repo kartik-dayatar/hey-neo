@@ -4,7 +4,7 @@ import ollama
 import uuid
 import pathlib
 import re
-from bm25_ingest import apt_packages
+from ingest.bm25_ingest import apt_packages
 
 def chunk_files(path:str) -> list[dict]:
     with open(path,"r") as file:
