@@ -26,7 +26,7 @@ def similarity_search(query):
     result= qdrant.query_points(
         collection_name="Similarity_search",
         query=query_vector['embedding'],
-        limit=5,
+        limit=3,
         with_payload=True,
         with_vectors=False
     )
@@ -41,7 +41,7 @@ def package_search(query):
     result= qdrant.query_points(
         collection_name="packages",
         query=query_vector['embedding'],
-        limit=5,
+        limit=10,
         with_payload=True,
         with_vectors=False
     )

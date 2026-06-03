@@ -1,3 +1,6 @@
 agent.md
 docs/*
 .venv/*
+.envrc
+.env
+.semgrepignore
