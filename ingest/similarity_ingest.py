@@ -4,7 +4,7 @@ import ollama
 import uuid
 import pathlib
 import re
-from ingest.bm25_ingest import apt_packages
+from bm25_ingest import apt_packages
 
 def chunk_files(path:str) -> list[dict]:
     with open(path,"r") as file:
@@ -54,13 +54,13 @@ def split_into_chunks(text: str, max_words: int = 150, overlap: int = 35) -> lis
     return result
 
 texts = []
-lines = chunk_files("./docs/hardware_info.txt")
-lines.extend(chunk_files("./docs/system_info.txt"))
-lines.extend(chunk_files("./docs/services.txt"))
-lines.extend(chunk_files("./docs/network_info.txt"))
-lines.extend(chunk_files("./docs/docker_info.txt"))
-lines.extend(chunk_files("./docs/ollama_info.txt"))
-packages = apt_packages("./docs/apt_packages.txt")
+lines = chunk_files("../docs/hardware_info.txt")
+lines.extend(chunk_files("../docs/system_info.txt"))
+lines.extend(chunk_files("../docs/services.txt"))
+lines.extend(chunk_files("../docs/network_info.txt"))
+lines.extend(chunk_files("../docs/docker_info.txt"))
+lines.extend(chunk_files("../docs/ollama_info.txt"))
+packages = apt_packages("../docs/apt_packages.txt")
 
 
 for line in lines:
@@ -72,7 +72,7 @@ for line in lines:
         })
 
 qdrant = QdrantClient(url='http://localhost:6333')
-if not qdrant.collection_exists("Similarity_search") and not qdrant.collection_exists("packages"):
+if not qdrant.collection_exists("Similarity_search") or not qdrant.collection_exists("packages"):
     qdrant.create_collection("Similarity_search",
         vectors_config=models.VectorParams(size=1024,distance=models.Distance.COSINE))
     qdrant.create_collection('packages',

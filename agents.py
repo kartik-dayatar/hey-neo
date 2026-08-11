@@ -4,6 +4,14 @@ from langchain.agents import create_agent
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from tools import web_search_tool, bm25_search_tool, similarity_search_tool, package_search_tool
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
 
 SYSTEM_PROMPT = """
 You are Neo, a precise and reliable local system assistant. You help users understand and manage their Linux system configuration — installed packages, hardware, services, environments, and system state.
@@ -44,8 +52,28 @@ Answer format:
 - If you genuinely cannot find the answer after using relevant tools, say: "I could not find [X] in your local system data or via web search."
 """
 def answering_agent(query:str):
-   llm = ChatOllama(model="qwen3:14b", temperature=0.2)
-
+   llm = ChatGoogleGenerativeAI(
+    model="gemma-4-31b-it",
+    google_api_key=GEMINI_API_KEY,
+    temperature=1.0,
+    max_tokens=1000,
+    timeout=None,
+    max_retries=2,
+   )
    agent = create_agent(llm, tools=[web_search_tool, bm25_search_tool, similarity_search_tool, package_search_tool], system_prompt=SYSTEM_PROMPT)
    result = agent.invoke({"messages":[{"role":"user","content": query}]})
    return result["messages"][-1].content
+
+def build_agent():
+   llm = ChatGoogleGenerativeAI(
+    model="gemma-4-31b-it",
+    google_api_key=GEMINI_API_KEY,
+    temperature=1.0,
+    max_tokens=1000,
+    timeout=None,
+    max_retries=2,
+   )
+   agent = create_agent(llm, tools=[web_search_tool, bm25_search_tool, similarity_search_tool, package_search_tool], system_prompt=SYSTEM_PROMPT)
+   return agent
+
+   

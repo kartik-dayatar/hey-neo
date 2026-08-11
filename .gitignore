@@ -4,3 +4,4 @@ docs/*
 .envrc
 .env
 .semgrepignore
+qdrant_storage/*

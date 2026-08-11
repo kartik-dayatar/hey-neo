@@ -170,12 +170,12 @@ def shell_config(path:str) -> dict:
 
 #combining all chunks which are under BM25 serch
 chunks = []
-chunks.extend(apt_packages("./docs/apt_packages.txt"))
-chunks.extend(apt_manual("./docs/apt_manual.txt"))
-chunks.extend(python_package("./docs/python_packages.txt"))
-chunks.extend(flatpak_package("./docs/flatpak_packages.txt"))
-chunks.extend(conda_info("./docs/conda_info.txt"))
-chunks.append(shell_config("./docs/shell_config.txt"))
+chunks.extend(apt_packages("../docs/apt_packages.txt"))
+chunks.extend(apt_manual("../docs/apt_manual.txt"))
+chunks.extend(python_package("../docs/python_packages.txt"))
+chunks.extend(flatpak_package("../docs/flatpak_packages.txt"))
+chunks.extend(conda_info("../docs/conda_info.txt"))
+chunks.append(shell_config("../docs/shell_config.txt"))
 
 #building corpus for BM25
 tokenized_corpus = [chunk['text'].split(" ") for chunk in chunks]
