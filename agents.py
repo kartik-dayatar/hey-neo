@@ -51,22 +51,11 @@ Answer format:
 - If the answer comes from web search, state that clearly.
 - If you genuinely cannot find the answer after using relevant tools, say: "I could not find [X] in your local system data or via web search."
 """
-def answering_agent(query:str):
-   llm = ChatGoogleGenerativeAI(
-    model="gemma-4-31b-it",
-    google_api_key=GEMINI_API_KEY,
-    temperature=1.0,
-    max_tokens=1000,
-    timeout=None,
-    max_retries=2,
-   )
-   agent = create_agent(llm, tools=[web_search_tool, bm25_search_tool, similarity_search_tool, package_search_tool], system_prompt=SYSTEM_PROMPT)
-   result = agent.invoke({"messages":[{"role":"user","content": query}]})
-   return result["messages"][-1].content
 
-def build_agent():
+
+def build_agent(chat_model = "gemma-4-31b-it"):
    llm = ChatGoogleGenerativeAI(
-    model="gemma-4-31b-it",
+    model = chat_model,
     google_api_key=GEMINI_API_KEY,
     temperature=1.0,
     max_tokens=1000,
