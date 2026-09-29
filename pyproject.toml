@@ -11,26 +11,19 @@ dependencies = [
     "langchain-ollama>=1.1.0",
     "langchain-community>=0.4.2",
     "langchain-google-genai>=4.2.6",
-
     # Vector DB & embeddings
     "qdrant-client>=1.18.0",
     "fastembed>=0.8.0",
-
     # Ollama Python SDK (for embeddings)
     "ollama>=0.6.2",
-
     # Web search fallback
     "tavily-python>=0.7.26",
-
     # BM25 ranking (used during ingestion)
     "rank-bm25>=0.2.2",
-
     # Environment variable management
     "python-dotenv>=1.2.2",
-
     # Terminal UI
     "rich>=15.0.0",
-
     # Data
     "pandas>=3.0.3",
 ]
